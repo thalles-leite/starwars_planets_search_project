@@ -14,6 +14,8 @@ export default function Provider({ children }) {
   const [columnFilter, setColumnFilter] = useState('population');
   const [operatorFilter, setOperatorFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState(0);
+  const [ordenatorFilter, setOrdenatorFilter] = useState('population');
+  const [sortFilter, setSortFilter] = useState('ASC');
   const [dataPlanets, setDataPlanets] = useState('');
   const [filters, setFilters] = useState([]);
   const [columnsOptionsFilter,
@@ -49,6 +51,40 @@ export default function Provider({ children }) {
   const changeValueFilter = (value) => {
     setValueFilter(value);
   };
+  const changeOrdenatorFilter = (value) => {
+    setOrdenatorFilter(value);
+  };
+
+  const changeSortFilter = (value) => {
+    setSortFilter(value);
+  };
+
+  const changeOrderfilter = () => {
+    const sortedPlanets = [...planets];
+    if (sortFilter === 'ASC') {
+      sortedPlanets
+        .sort((a, b) => {
+          const populationA = a[ordenatorFilter] === 'unknown'
+            ? Infinity : Number(a[ordenatorFilter]);
+          const populationB = b[ordenatorFilter] === 'unknown'
+            ? Infinity : Number(b[ordenatorFilter]);
+
+          return populationA - populationB;
+        });
+    } else {
+      sortedPlanets
+        .sort((a, b) => {
+          const populationA = a[ordenatorFilter] === 'unknown'
+            ? 0 : Number(a[ordenatorFilter]);
+          const populationB = b[ordenatorFilter] === 'unknown'
+            ? 0 : Number(b[ordenatorFilter]);
+
+          return populationB - populationA;
+        });
+    }
+    setPlanets(sortedPlanets);
+  };
+
   const deleteAllFilters = () => {
     setPlanets(dataPlanets);
     setColumnsOptionsFilter(INITIAL_COLUMNS_FILTER);
@@ -149,6 +185,11 @@ export default function Provider({ children }) {
         filters,
         deleteFilter,
         deleteAllFilters,
+        changeOrdenatorFilter,
+        ordenatorFilter,
+        changeSortFilter,
+        sortFilter,
+        changeOrderfilter,
       } }
     >
       {children}

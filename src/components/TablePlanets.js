@@ -36,36 +36,17 @@ export default function TablePlanets() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredPlanets && filteredPlanets.map((
-            {
-              name,
-              rotation_period: rotationPeriod,
-              orbital_period: orbitalPeriod,
-              diameter,
-              climate,
-              gravity,
-              terrain,
-              surface_water: surfaceWater,
-              population,
-              films,
-              created,
-              edited,
-              url },
-          ) => (
-            <TableRow key={ name }>
-              <TableCell>{name}</TableCell>
-              <TableCell>{rotationPeriod}</TableCell>
-              <TableCell>{orbitalPeriod}</TableCell>
-              <TableCell>{diameter}</TableCell>
-              <TableCell>{climate}</TableCell>
-              <TableCell>{gravity}</TableCell>
-              <TableCell>{terrain}</TableCell>
-              <TableCell>{surfaceWater}</TableCell>
-              <TableCell>{population}</TableCell>
-              <TableCell>{films}</TableCell>
-              <TableCell>{created}</TableCell>
-              <TableCell>{edited}</TableCell>
-              <TableCell>{url}</TableCell>
+          {filteredPlanets && filteredPlanets.map((planet) => (
+            <TableRow key={ planet.name }>
+              <TableCell data-testid="planet-name">{planet.name}</TableCell>
+              <TableCell>{planet.rotation_period}</TableCell>
+              <TableCell>{planet.orbital_period}</TableCell>
+              <TableCell>{planet.diameter}</TableCell>
+              <TableCell>{planet.climate}</TableCell>
+              <TableCell>{planet.gravity}</TableCell>
+              <TableCell>{planet.terrain}</TableCell>
+              <TableCell>{planet.surface_water}</TableCell>
+              <TableCell>{planet.population}</TableCell>
             </TableRow>
           ))}
         </TableBody>

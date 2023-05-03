@@ -1,4 +1,4 @@
-import { Box, TextField, Button, Container, Stack, Chip } from '@mui/material';
+import { Box, TextField, Button, Container, Stack, Chip, FormLabel, RadioGroup, FormControlLabel, Radio, Divider } from '@mui/material';
 import React, { useContext } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -19,11 +19,12 @@ export default function FormPlanets() {
     filters,
     deleteFilter,
     deleteAllFilters,
+    ordenatorFilter,
+    changeOrdenatorFilter,
+    sortFilter,
+    changeSortFilter,
+    changeOrderfilter,
   } = useContext(ContextAPI);
-
-  const handleDelete = () => {
-    console.info('You clicked the delete icon.');
-  };
 
   return (
     <Container>
@@ -95,6 +96,52 @@ export default function FormPlanets() {
           onClick={ () => { changeFilteredPlanets(); } }
         >
           FILTRAR
+        </Button>
+        <Divider orientation="vertical" variant="middle" flexItem />
+        <Box textAlign="center" display="flex" flexDirection="column">
+          <label htmlFor="ordenator-filter">Ordenar</label>
+          <select
+            id="ordenator-filter"
+            value={ ordenatorFilter }
+            onChange={ ({ target }) => changeOrdenatorFilter(target.value) }
+            data-testid="column-sort"
+          >
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="rotation_period">rotation_period</option>
+            <option value="surface_water">surface_water</option>
+          </select>
+        </Box>
+        <RadioGroup
+          defaultValue="ASC"
+          value={ sortFilter }
+          onChange={ ({ target }) => changeSortFilter(target.value) }
+        >
+          <FormControlLabel
+            value="ASC"
+            control={
+              <Radio data-testid="column-sort-input-asc" />
+            }
+            label="Ascendente"
+          />
+          <FormControlLabel
+            value="DESC"
+            control={
+              <Radio data-testid="column-sort-input-desc" />
+            }
+            label="Descendente"
+          />
+
+        </RadioGroup>
+        <Button
+          color="warning"
+          variant="contained"
+          data-testid="column-sort-button"
+          onClick={ () => changeOrderfilter() }
+        >
+          ORDENAR
+
         </Button>
 
       </Box>
