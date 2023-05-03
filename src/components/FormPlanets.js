@@ -13,6 +13,7 @@ export default function FormPlanets() {
     changeValueFilter,
     valueFilter,
     changeFilteredPlanets,
+    columnsOptionsFilter,
   } = useContext(ContextAPI);
 
   return (
@@ -41,14 +42,11 @@ export default function FormPlanets() {
         <select
           id="column-filter"
           value={ columnFilter }
-          onChange={ ({ target }) => changeColumnFilter(target.value) }
+          onChangeCapture={ ({ target }) => changeColumnFilter(target.value) }
           data-testid="column-filter"
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {columnsOptionsFilter
+            .map((column) => <option key={ column } value={ column }>{column}</option>)}
         </select>
       </Box>
       <Box textAlign="center" display="flex" flexDirection="column">
