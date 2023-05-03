@@ -56,7 +56,7 @@ export default function FormPlanets() {
             'data-testid': 'name-filter',
           } }
           value={ nameFilter }
-          variant="standard"
+          variant="outlined"
           onChange={ ({ target }) => changeNameFilter(target.value) }
         />
         <Box textAlign="center" display="flex" flexDirection="column">
@@ -87,6 +87,7 @@ export default function FormPlanets() {
 
         <TextField
           type="number"
+          variant="outlined"
           onChange={ ({ target }) => changeValueFilter(target.value) }
           value={ valueFilter }
           inputProps={ {
@@ -145,7 +146,6 @@ export default function FormPlanets() {
 
         </RadioGroup>
         <Button
-          color="warning"
           variant="contained"
           data-testid="column-sort-button"
           onClick={ () => changeOrderfilter() }

@@ -57,6 +57,23 @@ export default function Provider({ children }) {
   const changeSortFilter = (value) => {
     setSortFilter(value);
   };
+  const filterFuncion = (ofParam, clParam, vlParam, data) => {
+    let filteredPlanets = [];
+    if (ofParam === 'maior que') {
+      filteredPlanets = data
+        .filter((planet) => Number(planet[clParam]) > Number(vlParam));
+    }
+    if (ofParam === 'menor que') {
+      filteredPlanets = data
+        .filter((planet) => Number(planet[clParam]) < Number(vlParam));
+    }
+    if (ofParam === 'igual a') {
+      console.log('AQUIIII 3');
+      filteredPlanets = data
+        .filter((planet) => Number(planet[clParam]) === Number(vlParam));
+    }
+    return filteredPlanets;
+  };
   const changeOrderfilter = () => {
     const sortedPlanets = [...planets];
     if (sortFilter === 'ASC') {
@@ -90,8 +107,9 @@ export default function Provider({ children }) {
 
   const deleteFilter = (columnFilterParam, operatorFilterParam, valueFilterParam) => {
     const newFilters = filters
-      .filter(({
-        columnFilter: columnFilterData }) => columnFilterData !== columnFilterParam);
+      .filter(
+        ({ columnFilter: columnFilterData }) => columnFilterData !== columnFilterParam,
+      );
     setFilters(newFilters);
     setColumnsOptionsFilter([columnFilterParam, ...columnsOptionsFilter]);
     setColumnFilter(columnFilterParam);
@@ -108,29 +126,19 @@ export default function Provider({ children }) {
       ) > Number(valueFilterParam));
     }
     if (operatorFilterParam === 'igual a') {
-      console.log('AQUIIII');
       newFilteredPlanets = dataPlanets.filter((planet) => Number(
         planet[columnFilterParam],
       ) !== Number(valueFilterParam));
     }
+
     let reflterPlanets = [];
     newFilters.forEach((filter) => {
-      if (filter.operatorFilter === 'maior que') {
-        reflterPlanets = newFilteredPlanets.filter((planet) => Number(
-          planet[filter.columnFilter],
-        ) > Number(filter.valueFilter));
-      } else if (operatorFilter === 'menor que') {
-        reflterPlanets = newFilteredPlanets
-          .filter((planet) => Number(
-            planet[filter.columnFilter],
-          ) < Number(filter.valueFilter));
-      } else {
-        console.log('AQUIII 2');
-        reflterPlanets = newFilteredPlanets
-          .filter((planet) => Number(
-            planet[filter.columnFilter],
-          ) === Number(filter.valueFilter));
-      }
+      reflterPlanets = filterFuncion(
+        filter.operatorFilter,
+        filter.columnFilter,
+        filter.valueFilter,
+        newFilteredPlanets,
+      );
     });
     if (newFilters.length === 0) {
       reflterPlanets = newFilteredPlanets;
@@ -143,24 +151,14 @@ export default function Provider({ children }) {
     const newColumnsFilters = columnsOptionsFilter
       .filter((column) => column !== columnFilter);
     setFilters([...filters, { operatorFilter, columnFilter, valueFilter }]);
-
     setColumnsOptionsFilter(newColumnsFilters);
     setColumnFilter(newColumnsFilters[0]);
-
-    let filteredPlanets = [];
-    if (operatorFilter === 'maior que') {
-      filteredPlanets = planets
-        .filter((planet) => Number(planet[columnFilter]) > Number(valueFilter));
-    }
-    if (operatorFilter === 'menor que') {
-      filteredPlanets = planets
-        .filter((planet) => Number(planet[columnFilter]) < Number(valueFilter));
-    }
-    if (operatorFilter === 'igual a') {
-      console.log('AQUIIII 3');
-      filteredPlanets = planets
-        .filter((planet) => Number(planet[columnFilter]) === Number(valueFilter));
-    }
+    const filteredPlanets = filterFuncion(
+      operatorFilter,
+      columnFilter,
+      valueFilter,
+      planets,
+    );
     setPlanets(filteredPlanets);
   };
 

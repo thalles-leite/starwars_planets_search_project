@@ -4,6 +4,7 @@ import { Container } from '@mui/system';
 import React from 'react';
 import './App.css';
 import FormPlanets from './components/FormPlanets';
+import HeaderLogo from './components/HeaderLogo';
 import TablePlanets from './components/TablePlanets';
 // import Table from './components/Table';
 
@@ -11,9 +12,7 @@ import TablePlanets from './components/TablePlanets';
 function App() {
   return (
     <Container maxWidth="lg">
-      <Box>
-        LOGO
-      </Box>
+      <HeaderLogo />
       <FormPlanets />
       <TablePlanets />
     </Container>
