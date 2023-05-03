@@ -119,14 +119,12 @@ export default function Provider({ children }) {
         reflterPlanets = newFilteredPlanets.filter((planet) => Number(
           planet[filter.columnFilter],
         ) > Number(filter.valueFilter));
-      }
-      if (operatorFilter === 'menor que') {
+      } else if (operatorFilter === 'menor que') {
         reflterPlanets = newFilteredPlanets
           .filter((planet) => Number(
             planet[filter.columnFilter],
           ) < Number(filter.valueFilter));
-      }
-      if (operatorFilter === 'igual a') {
+      } else {
         console.log('AQUIII 2');
         reflterPlanets = newFilteredPlanets
           .filter((planet) => Number(
