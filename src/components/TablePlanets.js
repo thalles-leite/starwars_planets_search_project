@@ -11,7 +11,6 @@ import ContextAPI from '../contexts/ContextAPI';
 
 export default function TablePlanets() {
   const { planets, nameFilter } = useContext(ContextAPI);
-
   let headsPlanets = [];
   let firstItem = [];
   let filteredPlanets = [];
