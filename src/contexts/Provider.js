@@ -35,7 +35,6 @@ export default function Provider({ children }) {
   useEffect(() => {
     requestApi();
   }, [requestApi]);
-
   const changeNameFilter = (namePlanet) => {
     setNameFilter(namePlanet);
   };
@@ -58,7 +57,6 @@ export default function Provider({ children }) {
   const changeSortFilter = (value) => {
     setSortFilter(value);
   };
-
   const changeOrderfilter = () => {
     const sortedPlanets = [...planets];
     if (sortFilter === 'ASC') {
@@ -84,12 +82,12 @@ export default function Provider({ children }) {
     }
     setPlanets(sortedPlanets);
   };
-
   const deleteAllFilters = () => {
     setPlanets(dataPlanets);
     setColumnsOptionsFilter(INITIAL_COLUMNS_FILTER);
     setFilters([]);
   };
+
   const deleteFilter = (columnFilterParam, operatorFilterParam, valueFilterParam) => {
     const newFilters = filters
       .filter(({
@@ -99,33 +97,37 @@ export default function Provider({ children }) {
     setColumnFilter(columnFilterParam);
     let newFilteredPlanets = [];
     if (operatorFilterParam === 'maior que') {
-      newFilteredPlanets = dataPlanets.filter((planet) => (
-        Number(planet[columnFilterParam]) <= Number(valueFilterParam))
+      newFilteredPlanets = dataPlanets.filter((planet) => Number(
+        planet[columnFilterParam],
+      ) <= Number(valueFilterParam)
         || (Number.isNaN(Number(planet[columnFilterParam]))));
-    } else if (operatorFilterParam === 'menor que') {
-      newFilteredPlanets = dataPlanets
-        .filter((planet) => Number(
-          planet[columnFilterParam],
-        ) > Number(valueFilterParam));
-    } else if (operatorFilterParam === 'igual a') {
-      newFilteredPlanets = dataPlanets
-        .filter((planet) => Number(
-          planet[columnFilterParam],
-        ) !== Number(valueFilterParam));
+    }
+    if (operatorFilterParam === 'menor que') {
+      newFilteredPlanets = dataPlanets.filter((planet) => Number(
+        planet[columnFilterParam],
+      ) > Number(valueFilterParam));
+    }
+    if (operatorFilterParam === 'igual a') {
+      console.log('AQUIIII');
+      newFilteredPlanets = dataPlanets.filter((planet) => Number(
+        planet[columnFilterParam],
+      ) !== Number(valueFilterParam));
     }
     let reflterPlanets = [];
     newFilters.forEach((filter) => {
       if (filter.operatorFilter === 'maior que') {
-        reflterPlanets = newFilteredPlanets
-          .filter((planet) => Number(
-            planet[filter.columnFilter],
-          ) > Number(filter.valueFilter));
-      } else if (operatorFilter === 'menor que') {
+        reflterPlanets = newFilteredPlanets.filter((planet) => Number(
+          planet[filter.columnFilter],
+        ) > Number(filter.valueFilter));
+      }
+      if (operatorFilter === 'menor que') {
         reflterPlanets = newFilteredPlanets
           .filter((planet) => Number(
             planet[filter.columnFilter],
           ) < Number(filter.valueFilter));
-      } else if (operatorFilter === 'igual a') {
+      }
+      if (operatorFilter === 'igual a') {
+        console.log('AQUIII 2');
         reflterPlanets = newFilteredPlanets
           .filter((planet) => Number(
             planet[filter.columnFilter],
@@ -135,12 +137,8 @@ export default function Provider({ children }) {
     if (newFilters.length === 0) {
       reflterPlanets = newFilteredPlanets;
     }
-    console.log(newFilteredPlanets);
-    console.log(reflterPlanets);
-
     const newPlanets = [...planets, ...reflterPlanets];
     setPlanets(newPlanets);
-    console.log(newPlanets);
   };
 
   const changeFilteredPlanets = () => {
@@ -155,10 +153,13 @@ export default function Provider({ children }) {
     if (operatorFilter === 'maior que') {
       filteredPlanets = planets
         .filter((planet) => Number(planet[columnFilter]) > Number(valueFilter));
-    } else if (operatorFilter === 'menor que') {
+    }
+    if (operatorFilter === 'menor que') {
       filteredPlanets = planets
         .filter((planet) => Number(planet[columnFilter]) < Number(valueFilter));
-    } else if (operatorFilter === 'igual a') {
+    }
+    if (operatorFilter === 'igual a') {
+      console.log('AQUIIII 3');
       filteredPlanets = planets
         .filter((planet) => Number(planet[columnFilter]) === Number(valueFilter));
     }

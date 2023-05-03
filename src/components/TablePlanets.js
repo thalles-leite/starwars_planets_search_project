@@ -14,11 +14,11 @@ export default function TablePlanets() {
   let headsPlanets = [];
   let firstItem = [];
   let filteredPlanets = [];
-  if (planets) {
+  if (planets.length > 0) {
     [firstItem] = planets;
     headsPlanets = Object.keys(firstItem);
   }
-  if (nameFilter) {
+  if (nameFilter && planets) {
     filteredPlanets = planets
       .filter(({ name }) => name.toLowerCase().includes(nameFilter.toLowerCase()));
   } else {
