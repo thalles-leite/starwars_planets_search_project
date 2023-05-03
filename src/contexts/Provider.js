@@ -15,6 +15,7 @@ export default function Provider({ children }) {
   const [operatorFilter, setOperatorFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState(0);
   const [dataPlanets, setDataPlanets] = useState('');
+  const [filters, setFilters] = useState([]);
   const [columnsOptionsFilter,
     setColumnsOptionsFilter] = useState(INITIAL_COLUMNS_FILTER);
 
@@ -48,12 +49,72 @@ export default function Provider({ children }) {
   const changeValueFilter = (value) => {
     setValueFilter(value);
   };
+  const deleteAllFilters = () => {
+    setPlanets(dataPlanets);
+    setColumnsOptionsFilter(INITIAL_COLUMNS_FILTER);
+    setFilters([]);
+  };
+  const deleteFilter = (columnFilterParam, operatorFilterParam, valueFilterParam) => {
+    const newFilters = filters
+      .filter(({
+        columnFilter: columnFilterData }) => columnFilterData !== columnFilterParam);
+    setFilters(newFilters);
+    setColumnsOptionsFilter([columnFilterParam, ...columnsOptionsFilter]);
+    setColumnFilter(columnFilterParam);
+    let newFilteredPlanets = [];
+    if (operatorFilterParam === 'maior que') {
+      newFilteredPlanets = dataPlanets.filter((planet) => (
+        Number(planet[columnFilterParam]) <= Number(valueFilterParam))
+        || (Number.isNaN(Number(planet[columnFilterParam]))));
+    } else if (operatorFilterParam === 'menor que') {
+      newFilteredPlanets = dataPlanets
+        .filter((planet) => Number(
+          planet[columnFilterParam],
+        ) > Number(valueFilterParam));
+    } else if (operatorFilterParam === 'igual a') {
+      newFilteredPlanets = dataPlanets
+        .filter((planet) => Number(
+          planet[columnFilterParam],
+        ) !== Number(valueFilterParam));
+    }
+    let reflterPlanets = [];
+    newFilters.forEach((filter) => {
+      if (filter.operatorFilter === 'maior que') {
+        reflterPlanets = newFilteredPlanets
+          .filter((planet) => Number(
+            planet[filter.columnFilter],
+          ) > Number(filter.valueFilter));
+      } else if (operatorFilter === 'menor que') {
+        reflterPlanets = newFilteredPlanets
+          .filter((planet) => Number(
+            planet[filter.columnFilter],
+          ) < Number(filter.valueFilter));
+      } else if (operatorFilter === 'igual a') {
+        reflterPlanets = newFilteredPlanets
+          .filter((planet) => Number(
+            planet[filter.columnFilter],
+          ) === Number(filter.valueFilter));
+      }
+    });
+    if (newFilters.length === 0) {
+      reflterPlanets = newFilteredPlanets;
+    }
+    console.log(newFilteredPlanets);
+    console.log(reflterPlanets);
+
+    const newPlanets = [...planets, ...reflterPlanets];
+    setPlanets(newPlanets);
+    console.log(newPlanets);
+  };
 
   const changeFilteredPlanets = () => {
     const newColumnsFilters = columnsOptionsFilter
       .filter((column) => column !== columnFilter);
+    setFilters([...filters, { operatorFilter, columnFilter, valueFilter }]);
+
     setColumnsOptionsFilter(newColumnsFilters);
     setColumnFilter(newColumnsFilters[0]);
+
     let filteredPlanets = [];
     if (operatorFilter === 'maior que') {
       filteredPlanets = planets
@@ -85,6 +146,9 @@ export default function Provider({ children }) {
         valueFilter,
         changeFilteredPlanets,
         columnsOptionsFilter,
+        filters,
+        deleteFilter,
+        deleteAllFilters,
       } }
     >
       {children}
