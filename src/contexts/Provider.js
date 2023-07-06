@@ -1,3 +1,5 @@
+/* eslint-disable spaced-comment */
+/* eslint-disable max-len */
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ContextAPI from './ContextAPI';
@@ -57,6 +59,7 @@ export default function Provider({ children }) {
   const changeSortFilter = (value) => {
     setSortFilter(value);
   };
+
   const filterFuncion = (ofParam, clParam, vlParam, data) => {
     let filteredPlanets = [];
     if (ofParam === 'maior que') {
@@ -68,12 +71,12 @@ export default function Provider({ children }) {
         .filter((planet) => Number(planet[clParam]) < Number(vlParam));
     }
     if (ofParam === 'igual a') {
-      console.log('AQUIIII 3');
       filteredPlanets = data
         .filter((planet) => Number(planet[clParam]) === Number(vlParam));
     }
     return filteredPlanets;
   };
+
   const changeOrderfilter = () => {
     const sortedPlanets = [...planets];
     if (sortFilter === 'ASC') {
@@ -114,6 +117,7 @@ export default function Provider({ children }) {
     setColumnsOptionsFilter([columnFilterParam, ...columnsOptionsFilter]);
     setColumnFilter(columnFilterParam);
     let newFilteredPlanets = [];
+
     if (operatorFilterParam === 'maior que') {
       newFilteredPlanets = dataPlanets.filter((planet) => Number(
         planet[columnFilterParam],
@@ -132,6 +136,7 @@ export default function Provider({ children }) {
     }
 
     let reflterPlanets = [];
+
     newFilters.forEach((filter) => {
       reflterPlanets = filterFuncion(
         filter.operatorFilter,
@@ -139,12 +144,14 @@ export default function Provider({ children }) {
         filter.valueFilter,
         newFilteredPlanets,
       );
+      newFilteredPlanets = [...reflterPlanets];
     });
+
     if (newFilters.length === 0) {
       reflterPlanets = newFilteredPlanets;
     }
-    const newPlanets = [...planets, ...reflterPlanets];
-    setPlanets(newPlanets);
+
+    setPlanets([...planets, ...reflterPlanets]);
   };
 
   const changeFilteredPlanets = () => {
@@ -153,10 +160,13 @@ export default function Provider({ children }) {
     setFilters([...filters, { operatorFilter, columnFilter, valueFilter }]);
     setColumnsOptionsFilter(newColumnsFilters);
     setColumnFilter(newColumnsFilters[0]);
+
     const filteredPlanets = filterFuncion(
       operatorFilter,
       columnFilter,
+
       valueFilter,
+
       planets,
     );
     setPlanets(filteredPlanets);
