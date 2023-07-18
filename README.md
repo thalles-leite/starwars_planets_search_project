@@ -9,7 +9,11 @@
  Neste projeto, foi desenvolvida uma aplicação que consulta uma API para obter dados detalhados sobre os diversos planetas do universo de Star Wars. Com os dados retornados pela API, exibimos uma tabela personalizável, permitindo que os usuários filtrem os planetas com base em suas características, como população, período orbital, diâmetro e muito mais.
 ## :clapper: Demonstração
 
-https://github.com/thalles-leite/starwars_planets_search_project/assets/49620303/442d049f-8f63-422b-8dc0-baa0e77397d7
+
+
+https://github.com/thalles-leite/starwars_planets_search_project/assets/49620303/0890b2b4-1190-4e81-a011-87e4c551f6b7
+
+
 
 
 ## :books: Aprendizados
